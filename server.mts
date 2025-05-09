@@ -29,7 +29,6 @@ app.prepare().then(() => {
         socket.on("disconnect", () => {
             console.log(`User Disconnected: ${socket.id}`)
         })
-
     })
 
     httpServer.listen(port, () => {

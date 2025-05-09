@@ -13,8 +13,8 @@ const ChatMessage = ({ sender, message, isOwnMessage }: ChatMessageProps) => {
             className={`flex ${isSystemMessage
                 ? "justify-center"
                 : isOwnMessage
-                    ? "justify-start"
-                    : "justify-end"
+                    ? "justify-end"
+                    : "justify-start"
                 } mb-3`}
         >
             <div
