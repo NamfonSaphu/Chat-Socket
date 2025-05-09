@@ -21,7 +21,7 @@ const ChatMessage = ({ sender, message, isOwnMessage }: ChatMessageProps) => {
                 className={`max-w-xs px-4 py-2 rounded-lg ${isSystemMessage
                     ? "bg-gray-800 text-white text-center text-xs"
                     : isOwnMessage
-                        ? "bg-blue-500 text-white"
+                        ? "bg-gray-500 text-white"
                         : "bg-white text-black"
                     }`}
             >

@@ -45,7 +45,7 @@ export default function Home() {
     <div className="flex justify-center w-full px-4 mt-12">
       {!joined ? (
         <div className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center p-2">
             <p className="text-lg  font-semibold text-center mb-4">Join a Room</p>
             <ThemeToggle />
           </div>
@@ -69,7 +69,7 @@ export default function Home() {
         </div>
       ) : (
         <div className="w-full max-w-4xl mx-auto">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center p-2">
             <p className="mb-4 text-lg font-bold">Chat Room • {room}</p>
             <ThemeToggle />
           </div>
