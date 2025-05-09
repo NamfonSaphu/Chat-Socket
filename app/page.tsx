@@ -14,6 +14,10 @@ export default function Home() {
   const [userName, setUserName] = useState("");
   
   useEffect(() => {
+    fetch("/api/socket");
+  }, []);
+
+  useEffect(() => {
     socket.on("message", (data) => {
       setMessage((prev) => [...prev, data]);
     });
