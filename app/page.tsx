@@ -12,11 +12,7 @@ export default function Home() {
   const [joined, setJoined] = useState(false);
   const [message, setMessage] = useState<{ sender: string, message: string }[]>([]);
   const [userName, setUserName] = useState("");
-
-  useEffect(() => {
-    fetch("/api/socket");
-  }, []);
-
+  
   useEffect(() => {
     socket.on("message", (data) => {
       setMessage((prev) => [...prev, data]);
