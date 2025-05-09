@@ -11,6 +11,10 @@ export default function Home() {
   const [joined, setJoined] = useState(false)
   const [message, setMessage] = useState<{ sender: string, message: string }[]>([])
   useEffect(() => {
+    socket.on("message", (data) => {
+      setMessage((prev) => [...prev, data])
+    })
+
     socket.on("user_joined", (message) => {
       setMessage((prev) => [...prev, { sender: "system", message }])
     })
@@ -22,10 +26,15 @@ export default function Home() {
   }, [])
   const [userName, setUserName] = useState("")
   const handleJoinRoom = () => {
-    setJoined(true)
+    if (room && userName) {
+      socket.emit("join-room", { room, username: userName })
+      setJoined(true)
+    }
   }
   const handleSendMessage = (message: string) => {
-    console.log(message)
+    const data = { room, message, sender: userName }
+    setMessage((prev) => [...prev, { sender: userName, message }])
+    socket.emit("message", data)
   }
   return (
     <div className="flex mt-24 justify-center w-full">

@@ -21,12 +21,16 @@ app.prepare().then(() => {
             socket.to(room).emit("user_joined", `${username} joined room ${room}`)
         })
 
+        socket.on("message", ({ room, message, sender }) => {
+            console.log(`Message from ${sender} in room ${room}: ${message}`)
+            socket.to(room).emit("message", { sender, message })
+        })
+
         socket.on("disconnect", () => {
             console.log(`User Disconnected: ${socket.id}`)
         })
 
     })
-
 
     httpServer.listen(port, () => {
         console.log(`Server running in http://${hostname}:${port}`)
