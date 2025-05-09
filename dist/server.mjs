@@ -2,32 +2,30 @@
 import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
-var dev = process.env.NODE_ENV !== "production";
-var hostname = process.env.HOSTNAME || "localhost";
-var port = parseInt(process.env.PORT || "3000", 10);
-var app = next({ dev: dev, hostname: hostname, port: port });
-var handle = app.getRequestHandler();
-app.prepare().then(function () {
-    var httpServer = createServer(handle);
-    var io = new Server(httpServer);
-    io.on("connection", function (socket) {
-        console.log("User connected: ".concat(socket.id));
-        socket.on("join-room", function (_a) {
-            var room = _a.room, username = _a.username;
+const dev = process.env.NODE_ENV !== "production";
+const hostname = process.env.HOSTNAME || "localhost";
+const port = parseInt(process.env.PORT || "3000", 10);
+const app = next({ dev, hostname, port });
+const handle = app.getRequestHandler();
+app.prepare().then(() => {
+    const httpServer = createServer(handle);
+    const io = new Server(httpServer);
+    io.on("connection", (socket) => {
+        console.log(`User connected: ${socket.id}`);
+        socket.on("join-room", ({ room, username }) => {
             socket.join(room);
-            console.log("User ".concat(username, " joined room ").concat(room));
-            socket.to(room).emit("user_joined", "".concat(username, " joined room ").concat(room));
+            console.log(`User ${username} joined room ${room}`);
+            socket.to(room).emit("user_joined", `${username} joined room ${room}`);
         });
-        socket.on("message", function (_a) {
-            var room = _a.room, message = _a.message, sender = _a.sender;
-            console.log("Message from ".concat(sender, " in room ").concat(room, ": ").concat(message));
-            socket.to(room).emit("message", { sender: sender, message: message });
+        socket.on("message", ({ room, message, sender }) => {
+            console.log(`Message from ${sender} in room ${room}: ${message}`);
+            socket.to(room).emit("message", { sender, message });
         });
-        socket.on("disconnect", function () {
-            console.log("User Disconnected: ".concat(socket.id));
+        socket.on("disconnect", () => {
+            console.log(`User Disconnected: ${socket.id}`);
         });
     });
-    httpServer.listen(port, function () {
-        console.log("Server running in http://".concat(hostname, ":").concat(port));
+    httpServer.listen(port, () => {
+        console.log(`Server running in http://${hostname}:${port}`);
     });
 });
